@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      volumes:
+      - name: php-code
+        persistentVolumeClaim:
+          claimName: php-code
+      containers:
+      - name: php
+        image: php:8.0.2-fpm
+        volumeMounts:
+        - name: php-code
+          mountPath: /var/www/html
+      initContainers:
+      - name: install
+        image: busybox
+        volumeMounts:
+        - name: php-code
+          mountPath: /var/www/html
+        command:
+        - wget
+        - "-O"
+        - "/var/www/html/index.php"
+        - https://raw.githubusercontent.com/maxwagner-dev/academy-demo/master/php-app/index.php
