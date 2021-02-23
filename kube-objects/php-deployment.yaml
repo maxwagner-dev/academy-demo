@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: php
+  namespace: test-mw
   labels:
     tier: backend
 spec:
@@ -32,8 +33,4 @@ spec:
         volumeMounts:
         - name: php-code
           mountPath: /var/www/html
-        command:
-        - wget
-        - "-O"
-        - "/var/www/html/index.php"
-        - https://raw.githubusercontent.com/maxwagner-dev/academy-demo/master/php-app/index.php
+        command: ['sh', '-c', 'echo "<?php echo \"Hallo Welt, mein Name ist Max Wagner\";" > /var/www/html/index.php']
