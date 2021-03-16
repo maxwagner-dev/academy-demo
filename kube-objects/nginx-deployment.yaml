@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-  namespace: test-mw
+  namespace: old-academy
   labels:
     tier: backend
 spec:
