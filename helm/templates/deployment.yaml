@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      volumes:
+      - name: php-code
+        persistentVolumeClaim:
+          claimName: php-code
+      containers:
+      - name: php
+        image: php:8.0.2-fpm
+        volumeMounts:
+        - name: php-code
+          mountPath: /var/www/html
+      initContainers:
+      - name: install
+        image: busybox
+        volumeMounts:
+        - name: php-code
+          mountPath: /var/www/html
+        command: ['sh', '-c', 'echo "<?php echo \"Hallo Welt, mein Name ist Max Wagner\";" > /var/www/html/index.php']

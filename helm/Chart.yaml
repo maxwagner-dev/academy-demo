@@ -1,0 +1,8 @@
+apiVersion: v2
+name: php-demo-app
+version: "0.1.0"
+dependencies: # A list of the chart requirements (optional)
+  - name: nginx
+    version: 8.7.1
+    repository: https://charts.bitnami.com/bitnami
+appVersion: "0.1.0"
