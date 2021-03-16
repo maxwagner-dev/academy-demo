@@ -22,14 +22,12 @@ spec:
           claimName: php-code
       containers:
       - name: php
-        image: php:8.0.2-fpm
+        image: dynamiccommerce.azurecr.io/academy-mw:1.0.0
+        imagePullPolicy: Always
         volumeMounts:
-        - name: php-code
-          mountPath: /var/www/html
-      initContainers:
-      - name: install
-        image: busybox
-        volumeMounts:
-        - name: php-code
-          mountPath: /var/www/html
-        command: ['sh', '-c', 'echo "<?php echo \"Hallo Welt, mein Name ist Max Wagner\";" > /var/www/html/index.php']
+          - name: php-code
+            mountPath: /usr/share/app
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "cp -r /var/www/html/. /usr/share/app"]
