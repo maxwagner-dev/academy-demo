@@ -1,12 +1,12 @@
 replicaCount: 1
 
 nginx:
-    replicaCount: 5
+    replicaCount: 1
     serverBlock: |
         server {
             listen 0.0.0.0:8080;
             index index.php index.html;
-            root /var/www/html;
+            root /usr/share/app;
 
             location ~ \.php$ {
                 try_files $uri =404;
@@ -24,4 +24,4 @@ nginx:
             claimName: php-code
     extraVolumeMounts:
         - name: php-code
-          mountPath: /var/www/html
+          mountPath: /usr/share/app
